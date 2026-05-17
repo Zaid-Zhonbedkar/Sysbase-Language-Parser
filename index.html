@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sysbase — High-Performance Rust Parser Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="hero-bg"></div>
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark">S</div>
+      Sysbase
+    </a>
+    <ul class="nav-links">
+      <li class="nav-item">
+        <a href="#features">Product ▾</a>
+        <div class="drop-menu">
+          <a href="#features">Features</a>
+          <a href="#performance">Performance</a>
+          <a href="#architecture">Architecture</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a href="#languages">Languages ▾</a>
+        <div class="drop-menu">
+          <a href="#languages">Nexis</a>
+          <a href="#languages">Seaphire</a>
+          <a href="#languages">Grammar Ref</a>
+        </div>
+      </li>
+      <li><a href="#pipeline">How it Works</a></li>
+      <li><a href="#install">Docs</a></li>
+      <li><a href="#install">Community</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn-ghost">Sign In</button>
+      <button class="btn-cta">Try Free →</button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#features">Features</a>
+  <a href="#languages">Languages</a>
+  <a href="#pipeline">How it Works</a>
+  <a href="#performance">Performance</a>
+  <a href="#install">Docs</a>
+  <a href="#install">Community</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+
+  <div class="hero-left">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      v2.4 — Now with incremental parsing
+    </div>
+    <h1>The Parser Engine built for  <span class="accent">Speed &amp; Safety</span></h1>
+    <p class="hero-desc">Sysbase is a high-performance, memory-safe parsing infrastructure for the Nexis and Seaphire programming languages — turning raw source into structured ASTs with uncompromising throughput.</p>
+    <div class="hero-ctas">
+      <button class="btn-primary-lg" onclick="scrollTo('#install')">
+        Get Started
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <button class="btn-outline-lg" onclick="scrollTo('#features')">View Features</button>
+    </div>
+    <div class="hero-meta">
+      <span><span class="check">✓</span> Zero unsafe blocks</span>
+      <div class="hero-meta-sep"></div>
+      <span><span class="check">✓</span> No runtime deps</span>
+      <div class="hero-meta-sep"></div>
+      <span><span class="check">✓</span> WASM ready</span>
+    </div>
+  </div>
+
+  <div class="hero-code-wrap">
+    <div class="code-glow"></div>
+    <div class="float-badge fb-rust">🦀 Pure Rust</div>
+    <div class="float-badge fb-dual">Nexis + Seaphire</div>
+    <div class="code-card">
+      <div class="code-head">
+        <div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div>
+        <div class="code-tabs">
+          <button class="ctab active" onclick="switchCode('rust',this)">Rust</button>
+          <button class="ctab" onclick="switchCode('nexis',this)">Nexis</button>
+          <button class="ctab" onclick="switchCode('seaphire',this)">Seaphire</button>
+        </div>
+      </div>
+      <div class="code-body">
+        <div class="code-panel active" id="panel-rust">
+<span class="kw">use</span> <span class="ty">sysbase</span><span class="punct">::{</span><span class="ty">Parser</span><span class="punct">,</span> <span class="ty">Lang</span><span class="punct">};</span>
+
+<span class="kw">fn</span> <span class="fn">main</span><span class="punct">()</span> <span class="punct">{</span>
+  <span class="kw">let</span> src <span class="punct">=</span> <span class="str">r#"
+    fn greet(name: str) -&gt; str {
+      return "Hello, " + name
+    }
+  "#</span><span class="punct">;</span>
+
+  <span class="kw">let</span> ast <span class="punct">=</span> <span class="ty">Parser</span><span class="punct">::</span><span class="fn">new</span><span class="punct">(</span><span class="ty">Lang</span><span class="punct">::</span><span class="nm">Nexis</span><span class="punct">)</span>
+    <span class="punct">.</span><span class="fn">parse</span><span class="punct">(</span>src<span class="punct">)</span>
+    <span class="punct">.</span><span class="fn">unwrap</span><span class="punct">();</span>
+
+  <span class="mac">println!</span><span class="punct">(</span><span class="str">"{:#?}"</span><span class="punct">,</span> ast<span class="punct">.</span><span class="fn">root</span><span class="punct">());</span>
+<span class="punct">}</span>
+        </div>
+        <div class="code-panel" id="panel-nexis">
+<span class="cm">// Nexis — systems language</span>
+<span class="kw">module</span> <span class="nm">greeter</span>
+
+<span class="kw">fn</span> <span class="fn">greet</span><span class="punct">(</span><span class="var">name</span><span class="punct">:</span> <span class="ty">str</span><span class="punct">)</span> <span class="punct">-&gt;</span> <span class="ty">str</span> <span class="punct">{</span>
+  <span class="kw">return</span> <span class="str">"Hello, "</span> <span class="punct">+</span> <span class="var">name</span>
+<span class="punct">}</span>
+
+<span class="kw">fn</span> <span class="fn">main</span><span class="punct">()</span> <span class="punct">{</span>
+  <span class="kw">let</span> <span class="var">msg</span> <span class="punct">=</span> <span class="fn">greet</span><span class="punct">(</span><span class="str">"World"</span><span class="punct">)</span>
+  <span class="fn">print</span><span class="punct">(</span><span class="var">msg</span><span class="punct">)</span>
+<span class="punct">}</span>
+        </div>
+        <div class="code-panel" id="panel-seaphire">
+<span class="cm">// Seaphire — scripting language</span>
+<span class="kw">def</span> <span class="fn">greet</span> <span class="var">name</span> <span class="punct">=&gt;</span>
+  <span class="str">"Hello, "</span> <span class="punct">++</span> <span class="var">name</span>
+
+<span class="kw">let</span> <span class="var">msg</span> <span class="punct">=</span> <span class="fn">greet</span> <span class="str">"World"</span>
+<span class="fn">echo</span> <span class="var">msg</span>
+
+<span class="cm">-- pattern match</span>
+<span class="kw">match</span> <span class="var">msg</span>
+  <span class="punct">|</span> <span class="str">"Hello, World"</span> <span class="punct">-&gt;</span> <span class="fn">print</span> <span class="str">"ok"</span>
+  <span class="punct">|</span> <span class="var">_</span>              <span class="punct">-&gt;</span> <span class="fn">print</span> <span class="str">"hmm"</span>
+        </div>
+      </div>
+      <div class="code-foot">
+        <span class="code-status">● parsed in 0.04ms</span>
+        <span class="code-ver">sysbase v2.4.1</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ LOGOS ═══ -->
+<div class="logos-strip">
+  <div class="logos-inner">
+    <span class="logos-label">Trusted by teams building on Nexis and Seaphire</span>
+    <div class="logos-row">
+      <span>Ferrolink</span>
+      <span>Axiom Labs</span>
+      <span>Vanta Systems</span>
+      <span>Crestware</span>
+      <span>Novex IO</span>
+      <span>Driftcore</span>
+      <span>Parallax</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ STATS ═══ -->
+<div class="stats-bar reveal">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <span class="stat-num"><span class="counter g" data-target="12">0</span><span class="g">M</span></span>
+      <div class="stat-label">tokens/sec</div>
+      <div class="stat-sub">single-threaded</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num"><span class="counter" data-target="0">0</span><span class="g">ns</span></span>
+      <div class="stat-label">allocations</div>
+      <div class="stat-sub">zero-copy parse</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num"><span class="counter g" data-target="2">0</span><span class="g"> langs</span></span>
+      <div class="stat-label">supported</div>
+      <div class="stat-sub">Nexis &amp; Seaphire</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num"><span class="counter" data-target="99">0</span><span class="g">%</span></span>
+      <div class="stat-label">test coverage</div>
+      <div class="stat-sub">12k+ test cases</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FEATURES ═══ -->
+<section id="features">
+  <div class="section-inner">
+    <div class="section-hd reveal">
+      <span class="section-label">Features</span>
+      <h2 class="section-title">Everything a language toolchain needs</h2>
+      <p class="section-sub">From tokenization to full AST construction, Sysbase handles every stage of the parsing pipeline with surgical precision.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <h3>Zero-Copy Parsing</h3>
+        <p>Borrows directly from your source string — no intermediate heap allocations during tokenization or AST construction.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <h3>Incremental Parsing</h3>
+        <p>Re-parse only the changed subtree on edits. Ideal for language servers and live editors with sub-microsecond re-parse times.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Fault-Tolerant Recovery</h3>
+        <p>Never aborts on syntax errors. Produces a partial AST with structured diagnostics so editors can keep working mid-edit.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        </div>
+        <h3>Dual-Language Support</h3>
+        <p>A single unified API surfaces both Nexis (systems) and Seaphire (scripting) grammars with shared visitor and walker traits.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3>Structured Diagnostics</h3>
+        <p>LSP-compatible error spans with source-location metadata. Plug directly into VS Code, Helix, or any Language Server Protocol client.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        </div>
+        <h3>WASM &amp; FFI Ready</h3>
+        <p>Ships as a standalone WASM module with a C FFI layer. Embed in browsers, Node.js, Python, or any native host with zero fuss.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LANGUAGES ═══ -->
+<section id="languages" class="bg-surface">
+  <div class="section-inner">
+    <div class="section-hd reveal">
+      <span class="section-label">Languages</span>
+      <h2 class="section-title">Nexis and Seaphire, first-class</h2>
+      <p class="section-sub">Two languages, one engine. Sysbase ships grammar definitions, AST schemas, and test suites for both.</p>
+    </div>
+    <div class="lang-grid">
+      <div class="lang-card reveal-l">
+        <div class="lang-card-head">
+          <div class="lang-badge nexis">⚡ Nexis</div>
+          <h3>Systems Language</h3>
+          <p>Statically typed, compiled to native code. Designed for performance-critical applications with a clean, expressive syntax inspired by Rust and Swift.</p>
+        </div>
+        <div class="lang-code">
+<span class="cm">// Nexis sample</span>
+<span class="kw">struct</span> <span class="ty">Point</span> <span class="punct">{</span> <span class="var">x</span><span class="punct">:</span> <span class="ty">f64</span><span class="punct">,</span> <span class="var">y</span><span class="punct">:</span> <span class="ty">f64</span> <span class="punct">}</span>
+
+<span class="kw">impl</span> <span class="ty">Point</span> <span class="punct">{</span>
+  <span class="kw">fn</span> <span class="fn">dist</span><span class="punct">(</span><span class="var">self</span><span class="punct">,</span> <span class="var">other</span><span class="punct">:</span> <span class="ty">Point</span><span class="punct">)</span> <span class="punct">-&gt;</span> <span class="ty">f64</span> <span class="punct">{</span>
+    <span class="kw">let</span> <span class="var">dx</span> <span class="punct">=</span> <span class="var">self</span><span class="punct">.</span><span class="var">x</span> <span class="punct">-</span> <span class="var">other</span><span class="punct">.</span><span class="var">x</span>
+    <span class="kw">let</span> <span class="var">dy</span> <span class="punct">=</span> <span class="var">self</span><span class="punct">.</span><span class="var">y</span> <span class="punct">-</span> <span class="var">other</span><span class="punct">.</span><span class="var">y</span>
+    <span class="fn">sqrt</span><span class="punct">(</span><span class="var">dx</span><span class="punct">*</span><span class="var">dx</span> <span class="punct">+</span> <span class="var">dy</span><span class="punct">*</span><span class="var">dy</span><span class="punct">)</span>
+  <span class="punct">}</span>
+<span class="punct">}</span>
+        </div>
+        <div class="lang-tags">
+          <span class="lang-tag">Static types</span>
+          <span class="lang-tag">AOT compiled</span>
+          <span class="lang-tag">Memory safe</span>
+          <span class="lang-tag">Generics</span>
+          <span class="lang-tag">Pattern match</span>
+        </div>
+      </div>
+      <div class="lang-card reveal-r">
+        <div class="lang-card-head">
+          <div class="lang-badge seaphire">🌊 Seaphire</div>
+          <h3>Scripting Language</h3>
+          <p>Dynamically typed, interpreted with optional type hints. Terse ML-inspired syntax ideal for configuration, tooling, and rapid prototyping.</p>
+        </div>
+        <div class="lang-code">
+<span class="cm">-- Seaphire sample</span>
+<span class="kw">type</span> <span class="ty">Point</span> <span class="punct">=</span> <span class="punct">{</span> <span class="var">x</span><span class="punct">:</span> <span class="ty">Float</span><span class="punct">,</span> <span class="var">y</span><span class="punct">:</span> <span class="ty">Float</span> <span class="punct">}</span>
+
+<span class="kw">def</span> <span class="fn">dist</span> <span class="punct">(</span><span class="var">a</span> <span class="punct">:</span> <span class="ty">Point</span><span class="punct">)</span> <span class="punct">(</span><span class="var">b</span> <span class="punct">:</span> <span class="ty">Point</span><span class="punct">)</span> <span class="punct">=&gt;</span>
+  <span class="kw">let</span> <span class="var">dx</span> <span class="punct">=</span> <span class="var">a</span><span class="punct">.</span><span class="var">x</span> <span class="punct">-</span> <span class="var">b</span><span class="punct">.</span><span class="var">x</span>
+  <span class="kw">let</span> <span class="var">dy</span> <span class="punct">=</span> <span class="var">a</span><span class="punct">.</span><span class="var">y</span> <span class="punct">-</span> <span class="var">b</span><span class="punct">.</span><span class="var">y</span>
+  <span class="fn">sqrt</span> <span class="punct">(</span><span class="var">dx</span><span class="punct">*</span><span class="var">dx</span> <span class="punct">+</span> <span class="var">dy</span><span class="punct">*</span><span class="var">dy</span><span class="punct">)</span>
+        </div>
+        <div class="lang-tags">
+          <span class="lang-tag">Type inference</span>
+          <span class="lang-tag">Interpreted</span>
+          <span class="lang-tag">Functional</span>
+          <span class="lang-tag">Pipelines</span>
+          <span class="lang-tag">REPL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PIPELINE ═══ -->
+<section id="pipeline">
+  <div class="section-inner">
+    <div class="section-hd reveal" style="text-align:center">
+      <span class="section-label">How it Works</span>
+      <h2 class="section-title">Four stages, one fast pipeline</h2>
+      <p class="section-sub" style="margin:0 auto">From raw source to typed AST in a single pass with structured error recovery at every stage.</p>
+    </div>
+    <div class="pipeline">
+      <div class="pipe-step reveal">
+        <div class="pipe-num">1</div>
+        <h4>Lexer</h4>
+        <p>Tokenizes the raw source string into a flat token stream. Zero allocations — tokens are byte-range slices.</p>
+        <div class="pipe-arrow">→</div>
+      </div>
+      <div class="pipe-step reveal" style="transition-delay:0.1s">
+        <div class="pipe-num">2</div>
+        <h4>Parser</h4>
+        <p>Recursive-descent Pratt parser constructs the CST with precise span information and error node insertion.</p>
+        <div class="pipe-arrow">→</div>
+      </div>
+      <div class="pipe-step reveal" style="transition-delay:0.2s">
+        <div class="pipe-num">3</div>
+        <h4>AST Lowering</h4>
+        <p>CST is lowered to a typed AST, desugaring syntax constructs and validating grammar constraints.</p>
+        <div class="pipe-arrow">→</div>
+      </div>
+      <div class="pipe-step reveal" style="transition-delay:0.3s">
+        <div class="pipe-num">4</div>
+        <h4>Output</h4>
+        <p>Returns a typed AST root, a flat diagnostic list, and optional token stream for tooling consumers.</p>
+        <div class="pipe-arrow">→</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PERFORMANCE ═══ -->
+<section id="performance" class="bg-light">
+  <div class="section-inner">
+    <div class="section-hd reveal">
+      <span class="section-label">Performance</span>
+      <h2 class="section-title">Benchmarks that speak for themselves</h2>
+      <p class="section-sub">Measured on Apple M2 Pro, 10-core, 16GB. Single-threaded. Source files 50k–500k tokens.</p>
+    </div>
+    <div class="perf-grid">
+      <div class="perf-panel reveal-l">
+        <div class="perf-head">
+          Parse throughput (MB/s)
+          <span class="perf-tag">higher = better</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name hl">Sysbase</span>
+          <div class="bar-wrap"><div class="bar-fill green" data-w="95"></div></div>
+          <span class="bench-val hl">2,140 MB/s</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name">tree-sitter</span>
+          <div class="bar-wrap"><div class="bar-fill gray" data-w="58"></div></div>
+          <span class="bench-val">1,240 MB/s</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name">pest</span>
+          <div class="bar-wrap"><div class="bar-fill gray" data-w="41"></div></div>
+          <span class="bench-val">870 MB/s</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name">nom</span>
+          <div class="bar-wrap"><div class="bar-fill blue" data-w="33"></div></div>
+          <span class="bench-val">710 MB/s</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name">lalrpop</span>
+          <div class="bar-wrap"><div class="bar-fill gray" data-w="19"></div></div>
+          <span class="bench-val">400 MB/s</span>
+        </div>
+      </div>
+      <div class="perf-panel reveal-r">
+        <div class="perf-head">
+          Peak memory usage
+          <span class="perf-tag">lower = better</span>
+        </div>
+        <div class="mem-panel">
+          <div class="mem-row">
+            <div class="mem-label"><span class="hl">Sysbase</span><span>1.2 MB</span></div>
+            <div class="mem-wrap"><div class="mem-fill g" data-w="12"></div></div>
+            <div class="mem-note">Zero-copy; borrows source</div>
+          </div>
+          <div class="mem-row">
+            <div class="mem-label"><span>tree-sitter</span><span>8.4 MB</span></div>
+            <div class="mem-wrap"><div class="mem-fill b" data-w="42"></div></div>
+          </div>
+          <div class="mem-row">
+            <div class="mem-label"><span>pest</span><span>14.1 MB</span></div>
+            <div class="mem-wrap"><div class="mem-fill b" data-w="64"></div></div>
+          </div>
+          <div class="mem-row">
+            <div class="mem-label"><span>lalrpop</span><span>20.0 MB</span></div>
+            <div class="mem-wrap"><div class="mem-fill r" data-w="88"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ AST / ARCHITECTURE ═══ -->
+<section id="architecture">
+  <div class="section-inner">
+    <div class="section-hd reveal">
+      <span class="section-label">Architecture</span>
+      <h2 class="section-title">A clean, inspectable AST</h2>
+      <p class="section-sub">Every node carries its source span, kind, and typed children. Traverse, transform, or serialize with the built-in visitor API.</p>
+    </div>
+    <div class="ast-grid">
+      <div class="ast-card reveal-l">
+        <div class="ast-head">
+          <span>● ast output</span>
+          <span style="margin-left:auto">nexis v2.4</span>
+        </div>
+        <div class="ast-block">
+<span class="root">SourceFile</span> <span class="ast-detail">[0..98]</span>
+<div class="node">
+<span class="ast-node">FnDecl</span> <span class="ast-detail">[0..52]</span>
+<div class="node">
+<span class="ast-node">Ident</span> <span class="ast-detail">"greet"</span>
+<span class="ast-node">ParamList</span>
+<div class="node">
+<span class="ast-node">Param</span> <span class="ast-detail">name: str</span>
+</div>
+<span class="ast-node">ReturnType</span> <span class="ast-detail">str</span>
+<span class="ast-node">Block</span>
+<div class="node">
+<span class="ast-node">ReturnStmt</span>
+<div class="node">
+<span class="ast-node">BinExpr</span> <span class="ast-detail">op: +</span>
+</div>
+</div>
+</div>
+</div>
+        </div>
+        <div class="ast-footer" style="padding:0 24px 16px">
+          12 nodes · 3 scopes · 0 errors
+        </div>
+      </div>
+      <div class="reveal-r">
+        <div class="feat-grid" style="grid-template-columns:1fr 1fr;border-radius:12px">
+          <div class="feat-card">
+            <div class="feat-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <h3>Visitor API</h3>
+            <p>Implement the Visitor trait to walk every node type with full type safety.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon">
+              <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <h3>Span Metadata</h3>
+            <p>Every AST node stores byte-range spans for precise IDE integration.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <h3>Serialization</h3>
+            <p>Serialize the AST to JSON or a compact binary format with serde support.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon">
+              <svg viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg>
+            </div>
+            <h3>Mutation</h3>
+            <p>Mutable AST rewrites with automatic span re-computation for code generation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MORE FEATURES (light bg) ═══ -->
+<section class="bg-surface">
+  <div class="section-inner">
+    <div class="section-hd reveal" style="text-align:center">
+      <span class="section-label">Ecosystem</span>
+      <h2 class="section-title">Built for the whole toolchain</h2>
+      <p class="section-sub" style="margin:0 auto">Sysbase ships with everything you need to build editors, linters, formatters, and compilers.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3>LSP Server</h3>
+        <p>Drop-in language server with hover, go-to-definition, completions, and real-time diagnostics out of the box.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <h3>Formatter</h3>
+        <p>Opinionated, configurable code formatter with idempotent output. Compatible with both Nexis and Seaphire.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <h3>Lint Engine</h3>
+        <p>Rule-based linting API. Write custom lint passes over the typed AST with structured fix suggestions.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        </div>
+        <h3>Symbol Index</h3>
+        <p>Build a workspace-wide symbol index for fast cross-file reference resolution and rename refactoring.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <h3>Plugin API</h3>
+        <p>Extend the parser with custom grammar rules or AST passes using the stable plugin trait interface.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        </div>
+        <h3>GitHub Action</h3>
+        <p>Official CI action for syntax validation, linting, and formatting checks with annotated PR feedback.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INSTALL / CTA ═══ -->
+<section id="install" class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="section-inner">
+    <div class="reveal">
+      <span class="section-label" style="justify-content:center;display:block">Get Started</span>
+      <h2>Start parsing in minutes</h2>
+      <p>Add Sysbase to your Cargo project and parse your first file in under 10 lines of Rust.</p>
+    </div>
+
+    <div class="install-bar reveal" onclick="copyCmd()" style="transition-delay:0.1s">
+      <span class="inst-prompt">$</span>
+      <span class="inst-cmd">cargo add sysbase</span>
+      <span class="inst-copy" id="copyLabel">copy</span>
+    </div>
+
+    <div class="cta-btns reveal" style="transition-delay:0.15s">
+      <button class="btn-primary-lg">
+        Read the Docs
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <button class="btn-outline-lg">View on GitHub</button>
+    </div>
+
+    <div class="cta-meta reveal" style="transition-delay:0.25s">
+      <span>📦 cargo install sysbase</span>
+      <div class="cta-meta-sep"></div>
+      <span>⭐ 2.4k GitHub stars</span>
+      <div class="cta-meta-sep"></div>
+      <span>Open-source</span>
+    </div>
+    <div class="os-grid" style="margin-top:48px">
+      <div class="os-card reveal">
+        <div class="os-icon"></div>
+        <h3>macOS</h3>
+        <p>Apple Silicon &amp; Intel</p>
+        <span class="os-btn">Download .pkg</span>
+      </div>
+      <div class="os-card reveal" style="transition-delay:0.1s">
+        <div class="os-icon">🪟</div>
+        <h3>Windows</h3>
+        <p>x64 &amp; ARM64</p>
+        <span class="os-btn">.msi Installer</span>
+      </div>
+      <div class="os-card reveal" style="transition-delay:0.2s">
+        <div class="os-icon">🐧</div>
+        <h3>Linux</h3>
+        <p>.deb / .rpm / tarball</p>
+        <span class="os-btn">Get Packages</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a href="#" class="logo" style="margin-bottom:14px;display:inline-flex">
+        <div class="logo-mark">S</div>
+        Sysbase
+      </a>
+      <p>High-performance Rust parsing engine for the Nexis and Seaphire ecosystem.</p>
+      <div class="foot-social">
+        <a href="#" title="GitHub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        </a>
+        <a href="#" title="Discord">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.492c-1.53-.69-3.17-1.2-4.885-1.49a.075.075 0 0 0-.079.036c-.21.369-.444.85-.608 1.23a18.566 18.566 0 0 0-5.487 0 12.36 12.36 0 0 0-.617-1.23A.077.077 0 0 0 8.562 3c-1.714.29-3.354.8-4.885 1.491a.07.07 0 0 0-.032.027C.533 9.093-.32 13.555.099 17.961a.08.08 0 0 0 .031.055 20.03 20.03 0 0 0 5.993 2.98.078.078 0 0 0 .084-.026c.462-.62.874-1.275 1.226-1.963.021-.04.001-.088-.041-.104a13.201 13.201 0 0 1-1.872-.878.075.075 0 0 1-.008-.125c.126-.093.252-.19.372-.287a.075.075 0 0 1 .078-.01c3.927 1.764 8.18 1.764 12.061 0a.075.075 0 0 1 .079.009c.12.098.245.195.372.288a.075.075 0 0 1-.006.125c-.598.344-1.22.635-1.873.877a.075.075 0 0 0-.041.105c.36.687.772 1.341 1.225 1.962a.077.077 0 0 0 .084.028 19.963 19.963 0 0 0 6.002-2.981.076.076 0 0 0 .032-.054c.5-5.094-.838-9.52-3.549-13.442a.06.06 0 0 0-.031-.028z"/></svg>
+        </a>
+        <a href="#" title="Twitter">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h5>Product</h5>
+      <ul>
+        <li><a href="#">Overview</a></li>
+        <li><a href="#">Changelog</a></li>
+        <li><a href="#">Roadmap</a></li>
+        <li><a href="#">Benchmarks</a></li>
+        <li><a href="#">Playground</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Languages</h5>
+      <ul>
+        <li><a href="#">Nexis Spec</a></li>
+        <li><a href="#">Seaphire Spec</a></li>
+        <li><a href="#">Grammar Reference</a></li>
+        <li><a href="#">AST Schema</a></li>
+        <li><a href="#">Examples</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Developers</h5>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">API Reference</a></li>
+        <li><a href="#">GitHub</a></li>
+        <li><a href="#">Community</a></li>
+        <li><a href="#">Contributing</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <div>© 2026 Sysbase. Built with Rust. 🦀</div>
+    <div class="foot-bottom-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Security</a>
+      <a href="#">License</a>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
