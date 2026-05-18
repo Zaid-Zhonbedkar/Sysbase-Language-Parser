@@ -1,0 +1,53 @@
+WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
+
+program = {
+    SOI ~ statement* ~ EOI
+}
+
+statement = _{
+    variable_decl
+    | print_stmt
+}
+
+variable_decl = {
+    "set" ~ identifier ~ ("=" ~ expression)
+}
+
+print_stmt = {
+    "system.out" ~ "(" ~ expression ~ ")"
+}
+
+expression = _{
+    binary_expr
+    | value
+}
+
+binary_expr = {
+    value ~ operator ~ value
+}
+
+operator = {
+    "+"
+    | "-"
+    | "*"
+    | "/"
+}
+
+value = _{
+    integer
+    | string
+    | identifier
+}
+
+integer = @{
+    ASCII_DIGIT+
+}
+
+string = @{
+    "\"" ~ (!"\"" ~ ANY)* ~ "\""
+}
+
+identifier = @{
+    (ASCII_ALPHA | "_") ~
+    (ASCII_ALPHANUMERIC | "_")*
+}
